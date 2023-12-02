@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "letters": ["p", "a", "s", "l", "u"],
+      "answers": ["pulsa", "palsu", "palu", "pas", "lap"]
+    },
+    {
+      "letters": ["w", "a", "r", "l", "i"],
+      "answers": ["liar", "wali", "lari"]
+    },
+    {
+      "letters": ["d", "a", "u", "k", "l"],
+      "answers": ["kuda", "lauk", "dua", "duka"]
+    }
+  ]
+}
