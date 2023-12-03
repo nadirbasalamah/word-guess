@@ -5,10 +5,12 @@ import (
 	"guess-word/lib"
 	"guess-word/models"
 	"log"
+	"math/rand"
 	"os"
 	"os/exec"
 	"runtime"
 	"slices"
+	"time"
 )
 
 var wordbank models.WordBank
@@ -38,6 +40,8 @@ func init() {
 func main() {
 	readWordBank()
 
+	shuffleWordBank()
+
 	for {
 		for !isChoiceValid {
 			mainMenu()
@@ -62,8 +66,10 @@ func main() {
 			break
 		} else if continuePlaying != "y" && continuePlaying != "n" {
 			fmt.Println("please enter n to quit the game")
+			shuffleWordBank()
 		} else {
 			clearTerminal()
+			shuffleWordBank()
 		}
 	}
 }
@@ -76,6 +82,14 @@ func readWordBank() {
 	if err != nil {
 		log.Fatalf("error when reading word bank: %v\n", err)
 	}
+}
+
+func shuffleWordBank() {
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	rand.Shuffle(len(wordbank.Data), func(i, j int) {
+		wordbank.Data[i], wordbank.Data[j] = wordbank.Data[j], wordbank.Data[i]
+	})
 }
 
 func mainMenu() {
