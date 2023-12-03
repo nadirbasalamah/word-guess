@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"slices"
 )
 
 var wordbank models.WordBank
@@ -48,6 +49,8 @@ func main() {
 	}
 
 	fmt.Println("Congratulations! you win the game!")
+
+	cleanup()
 }
 
 func readWordBank() {
@@ -135,4 +138,9 @@ func clearTerminal() {
 	} else {
 		panic("unsupported platform. clear terminal failed")
 	}
+}
+
+func cleanup() {
+	tmpAnswers = slices.Delete[[]string](tmpAnswers, 0, len(tmpAnswers))
+	userAnswers = slices.Delete[[]string](userAnswers, 0, len(userAnswers))
 }
