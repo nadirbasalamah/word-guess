@@ -1,0 +1,15 @@
+# word-guess
+
+A console based word guessing game.
+
+## How to Play
+
+1. Clone this repository.
+
+2. Play the game.
+
+```sh
+./bin/game
+```
+
+3. Guess the word based on the given letters. The constructed word must be valid Indonesian word.
