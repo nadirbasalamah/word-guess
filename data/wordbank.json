@@ -2,7 +2,16 @@
   "data": [
     {
       "letters": ["p", "a", "s", "l", "u"],
-      "answers": ["pulsa", "palsu", "palu", "pas", "lap", "puas"]
+      "answers": [
+        "pulsa",
+        "palsu",
+        "palu",
+        "pas",
+        "lap",
+        "puas",
+        "sulap",
+        "paus"
+      ]
     },
     {
       "letters": ["w", "a", "r", "l", "i"],
