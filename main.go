@@ -122,9 +122,6 @@ func mainGame() {
 	if isCorrect && !isDuplicate {
 		userAnswers = append(userAnswers, word)
 		fmt.Println("your answers is: ", userAnswers)
-	} else if isDuplicate {
-		fmt.Println("answer is already exists, please try again")
-		fmt.Println("your answers is: ", userAnswers)
 	} else {
 		fmt.Println("wrong answer, please try again")
 		fmt.Println("your answers is: ", userAnswers)

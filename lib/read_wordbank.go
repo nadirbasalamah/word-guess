@@ -14,6 +14,8 @@ func ReadWordbank() (models.WordBank, error) {
 		return models.WordBank{}, err
 	}
 
+	defer jsonFile.Close()
+
 	jsonData, err := io.ReadAll(jsonFile)
 
 	if err != nil {
