@@ -5,17 +5,42 @@ import (
 	"guess-word/lib"
 	"guess-word/models"
 	"log"
+	"os"
+	"os/exec"
+	"runtime"
 )
 
 var wordbank models.WordBank
 var userChoice int
 var wordDatum models.Datum
 var userAnswers []string
+var isChoiceValid bool
+
+var clear map[string]func()
+
+func init() {
+	clear = make(map[string]func())
+	clear["linux"] = func() {
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
+	clear["windows"] = func() {
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
+}
 
 func main() {
 	readWordBank()
 
-	mainMenu()
+	for !isChoiceValid {
+		mainMenu()
+		if !isChoiceValid {
+			fmt.Println("invalid input, please try again")
+		}
+	}
 
 	//TODO: start the game to guess the words based on the given letters
 	mainGame()
@@ -48,12 +73,18 @@ func mainMenu() {
 	isValid := lib.ValidateChoice(userChoice, len(wordbank.Data))
 
 	if !isValid {
-		fmt.Println("invalid input, please try again")
+		isChoiceValid = false
+		clearTerminal()
+		return
 	}
+
+	isChoiceValid = true
 
 	userChoice--
 
 	wordDatum = wordbank.Data[userChoice]
+
+	clearTerminal()
 }
 
 func mainGame() {
@@ -87,5 +118,14 @@ func mainGame() {
 		fmt.Println("your answers is: ", userAnswers)
 	} else {
 		fmt.Println("wrong answer, please try again")
+	}
+}
+
+func clearTerminal() {
+	clearTerminalFunc, ok := clear[runtime.GOOS]
+	if ok {
+		clearTerminalFunc()
+	} else {
+		panic("unsupported platform. clear terminal failed")
 	}
 }
