@@ -9,14 +9,16 @@ import (
 
 var wordbank models.WordBank
 var userChoice int
+var wordDatum models.Datum
+var userAnswers []string
 
 func main() {
-	//TODO: print bag of letters
 	readWordBank()
 
 	mainMenu()
 
 	//TODO: start the game to guess the words based on the given letters
+	mainGame()
 
 	//TODO: if all words guessed, exit the game
 }
@@ -47,5 +49,43 @@ func mainMenu() {
 
 	if !isValid {
 		fmt.Println("invalid input, please try again")
+	}
+
+	userChoice--
+
+	wordDatum = wordbank.Data[userChoice]
+}
+
+func mainGame() {
+	var wordInput string
+
+	fmt.Println("Your Letters")
+	for _, letter := range wordDatum.Letters {
+		fmt.Printf("[%s] ", letter)
+	}
+	fmt.Println("")
+
+	fmt.Print("Enter a word: ")
+	fmt.Scan(&wordInput)
+
+	isValid := lib.ValidateAnswerInput(wordInput)
+
+	if !isValid {
+		fmt.Println("invalid input, please try again")
+	}
+
+	word := lib.SanitizeInput(wordInput)
+
+	userAnswers = append(userAnswers, word)
+
+	isDuplicate := lib.IsDuplicate(userAnswers, word)
+	isCorrect := lib.CheckAnswer(wordDatum.Answers, word)
+
+	fmt.Println("is duplicate?: ", isDuplicate)
+
+	if isCorrect && !isDuplicate {
+		fmt.Println("your answers is: ", userAnswers)
+	} else {
+		fmt.Println("wrong answer, please try again")
 	}
 }
