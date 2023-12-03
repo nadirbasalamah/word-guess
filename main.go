@@ -17,6 +17,7 @@ var wordDatum models.Datum
 var tmpAnswers []string
 var userAnswers []string
 var isChoiceValid bool
+var continuePlaying string
 
 var clear map[string]func()
 
@@ -37,20 +38,34 @@ func init() {
 func main() {
 	readWordBank()
 
-	for !isChoiceValid {
-		mainMenu()
-		if !isChoiceValid {
-			fmt.Println("invalid input, please try again")
+	for {
+		for !isChoiceValid {
+			mainMenu()
+			if !isChoiceValid {
+				fmt.Println("invalid input, please try again")
+			}
+		}
+
+		for len(userAnswers) != len(wordDatum.Answers) {
+			mainGame()
+		}
+
+		fmt.Println("Congratulations! you win the game!")
+
+		cleanup()
+
+		fmt.Print("Continue playing? (y/n): ")
+		fmt.Scan(&continuePlaying)
+
+		if continuePlaying == "n" {
+			fmt.Println("Bye...")
+			break
+		} else if continuePlaying != "y" && continuePlaying != "n" {
+			fmt.Println("please enter n to quit the game")
+		} else {
+			clearTerminal()
 		}
 	}
-
-	for len(userAnswers) != len(wordDatum.Answers) {
-		mainGame()
-	}
-
-	fmt.Println("Congratulations! you win the game!")
-
-	cleanup()
 }
 
 func readWordBank() {
@@ -121,11 +136,19 @@ func mainGame() {
 
 	if isCorrect && !isDuplicate {
 		userAnswers = append(userAnswers, word)
-		fmt.Println("your answers is: ", userAnswers)
+		showAnswers(userAnswers)
 	} else {
 		fmt.Println("wrong answer, please try again")
-		fmt.Println("your answers is: ", userAnswers)
+		showAnswers(userAnswers)
 	}
+}
+
+func showAnswers(answers []string) {
+	fmt.Println("your answers")
+	for _, answer := range answers {
+		fmt.Printf("[%s] ", answer)
+	}
+	fmt.Println("")
 }
 
 func clearTerminal() {
@@ -140,4 +163,5 @@ func clearTerminal() {
 func cleanup() {
 	tmpAnswers = slices.Delete[[]string](tmpAnswers, 0, len(tmpAnswers))
 	userAnswers = slices.Delete[[]string](userAnswers, 0, len(userAnswers))
+	isChoiceValid = false
 }
