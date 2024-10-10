@@ -12,4 +12,10 @@ A console based word guessing game.
 ./bin/game
 ```
 
+If you are using Windows. use this command.
+
+```sh
+./game.exe
+```
+
 3. Guess the word based on the given letters. The constructed word must be valid Indonesian word.
