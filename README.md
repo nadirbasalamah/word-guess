@@ -19,3 +19,7 @@ If you are using Windows. use this command.
 ```
 
 3. Guess the word based on the given letters. The constructed word must be valid Indonesian word.
+
+## Demo
+
+![Game Demo](docs/word_guess_game_demo.gif)
